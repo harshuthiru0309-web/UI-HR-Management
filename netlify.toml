@@ -1,0 +1,4 @@
+[build]
+  # Install dependencies if they aren't present yet, then build with Vite.
+  command = "(test -x node_modules/.bin/vite || npm ci --include=dev) && npm run build"
+  publish = "dist"

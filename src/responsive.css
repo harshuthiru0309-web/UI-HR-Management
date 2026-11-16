@@ -1,0 +1,84 @@
+/* =====================================================================
+   RESPONSIVE LAYERS  (loaded after App.css)
+
+   Mobile  < 600px      the phone design. 1em = viewport width / 39, so everything
+                        scales fluidly (capped at 430px, framed like a phone from 480px).
+   Tablet  600 - 1023px a wider centred column with slightly larger type (1em = 12.5px).
+   Laptop  >= 1024px    a wide window, floating navigation rail on the left,
+                        two-column layouts for dashboards, forms and lists.
+   ===================================================================== */
+
+/* ---------- MOBILE (default) ----------
+   Nothing to add: App.css already is mobile-first. */
+
+/* ---------- TABLET ---------- */
+@media (min-width: 600px) {
+  .app, .scrim.si {
+    --w: min(calc(100vw - 48px), 640px);
+    font-size: 12.5px;                       /* fixed type size: the column gets wider, not blown up */
+  }
+  .app { min-height: min(100dvh - 48px, 92em); }
+
+  /* decorative hero art is drawn on a 39em stage: keep it centred in the wider column */
+  .iv-art { inset: 0 auto auto 50%; width: 39em; height: 100%; margin-left: -19.5em; }
+
+  /* bottom sheets stay a comfortable width */
+  .sheet { width: min(var(--w), 52em); }
+
+  .cht-msg { max-width: 34em; }
+  .cht-msg.pic { width: 30em; }
+}
+
+/* ---------- LAPTOP ---------- */
+@media (min-width: 1024px) {
+  .app, .scrim.si {
+    --w: min(820px, calc(100vw - 280px));    /* leaves room for the navigation rail */
+    font-size: 13px;
+  }
+  .app { min-height: min(100dvh - 48px, 80em); border-radius: 2.4em; }
+  .sheet { width: min(var(--w), 50em); }
+
+  /* bottom tab bar -> floating vertical rail on the left */
+  .tabbar {
+    left: 2em; top: 50%; bottom: auto; transform: translateY(-50%);
+    width: 7.2em; flex-direction: column; justify-content: center; gap: 1.2em;
+    padding: 2em 0; border-radius: 2.4em; box-shadow: 0 1.6em 4em rgba(31, 33, 35, .35);
+  }
+  .tabbar::after { display: none; }
+  .tab { width: 5.2em; height: 5.2em; border-radius: 1.4em; }
+  .tab svg { font-size: 2.6em; }
+
+  /* fixed action bars no longer need to clear a bottom tab bar */
+  .create-bar { bottom: env(safe-area-inset-bottom, 0px); }
+
+  /* Home: banner on top, Today Meeting and Today Task side by side */
+  .h-body { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.8em; align-items: start; }
+  .h-body > .banner { grid-column: 1 / -1; }
+
+  /* pages with two or more cards (Personal Data, Payroll, ...) -> two columns */
+  .wp-body:has(> .wp-card ~ .wp-card) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2em; align-items: start; }
+  /* pages with one card (forms) stay a readable width */
+  .wp-body:has(> .wp-card:only-child) { width: 100%; max-width: 56em; margin-inline: auto; }
+
+  /* task / expense / leave lists -> two columns */
+  .t-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.6em; }
+
+  .cht-msg { max-width: 44em; }
+  .cht-msg.pic { width: 34em; }
+}
+
+/* ---------- MOUSE / TRACKPAD: hover states (laptops, big tablets with a mouse) ---------- */
+@media (hover: hover) and (pointer: fine) {
+  .btn.primary:hover:not(:disabled) { filter: brightness(1.07); }
+  .btn.outline:hover:not(:disabled) { background: #f6f3ff; }
+  .tab:hover { background: rgba(255, 255, 255, .1); border-radius: 1.4em; }
+  .mg-row:hover, .nt-row:hover { background: #f7f7fb; }
+  .pr .pr-card[role="button"]:hover { box-shadow: 0 .6em 2em rgba(60, 40, 150, .12); }
+  .join:hover { filter: brightness(1.08); }
+}
+
+/* ---------- short landscape screens (phones on their side) ---------- */
+@media (max-height: 480px) and (orientation: landscape) {
+  .iv-hero { height: 26em; }
+  .tabbar { padding-block: .6em calc(env(safe-area-inset-bottom, 0px) + 1em); }
+}
